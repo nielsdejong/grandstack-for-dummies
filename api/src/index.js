@@ -1,20 +1,20 @@
-
-import apollo from 'apollo-server-express'
+import apollo from 'apollo-server-express';
 import express from "express";
 import neo4j_graphql from "neo4j-graphql-js"
 import neo4j from 'neo4j-driver';
 import dotenv from "dotenv";
-import fs from "fs";
 
-import path from 'path';
-const __dirname = path.resolve();
+dotenv.config(); // set environment variables from "../.env
 
 const graphqlPath = "/graphql";
-dotenv.config(); // set environment variables from "../.env
-const { ApolloServer } = apollo;
+const {ApolloServer} = apollo;
 const {makeAugmentedSchema} = neo4j_graphql;
+
+import path from 'path';
+import fs from "fs";
+
+const __dirname = path.resolve();
 const typeDefs = fs.readFileSync(process.env.GRAPHQL_SCHEMA || path.join(__dirname, "src", "schema.graphql")).toString("utf-8");
-const port = process.env.GRAPHQL_LISTEN_PORT || 4001;
 
 
 // Create a new ApolloServer instance, serving the GraphQL schema.
@@ -36,6 +36,6 @@ const server = new ApolloServer({
 // Start Express server
 const app = express();
 server.applyMiddleware({app, path: graphqlPath});
-app.listen({port, path: graphqlPath}, () => {
-    console.log(`GraphQL server ready at http://localhost:${port}${graphqlPath}`);
+app.listen({port: process.env.GRAPHQL_LISTEN_PORT || 4001, path: graphqlPath}, () => {
+    console.log(`GraphQL server ready at http://localhost:${process.env.GRAPHQL_LISTEN_PORT || 4001}${graphqlPath}`);
 });

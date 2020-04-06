@@ -1,6 +1,6 @@
 
 type Movie {
-    # Set the ID to be a unique identifier
+    # The ! sets the ID to be a unique identifier
     id: ID!
     # Name of the movie
     title: String
