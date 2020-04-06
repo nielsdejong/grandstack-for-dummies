@@ -1,2 +1,5 @@
 .idea
 niels-neo-grandstack.iml
+node_modules
+package-lock.json
+build

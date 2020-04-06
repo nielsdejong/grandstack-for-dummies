@@ -1,0 +1,21 @@
+
+type Movie {
+    # Set the ID to be a unique identifier
+    id: ID!
+    # Name of the movie
+    title: String
+    # Gets all incoming relationships with type 'ACTED_IN'
+    actors: [Person] @relation(name: "ACTED_IN", direction: "IN")
+    # Gets the average rating for a given movie with a Cypher statement
+    avgRating: Float @cypher( statement: "MATCH (this)<-[r:REVIEWED]-(p:Person) RETURN coalesce(toFloat(avg(r.rating)),0)")
+}
+
+type Person {
+    id: ID!
+    name: String
+}
+
+# Specify a custom Cypher query in GraphQL using this construct.
+type Query {
+    peopleBySubstring(substring: String): [Person] @cypher( statement: "MATCH (u:Person) WHERE u.name CONTAINS $substring RETURN u")
+}
