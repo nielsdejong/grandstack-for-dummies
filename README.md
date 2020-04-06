@@ -1,9 +1,8 @@
-## Simple Grandstack Template
+## grandstack-for-dummies
 This project aims to provide a super simple starting point for Grandstack apps on top of Neo4j.
-
-Consider this a tutorial for those not familiar with React, Apollo or GraphQL.
-
-
+Consider this a starting point for those not familiar with React, Apollo or GraphQL. It's essentially a stripped down version of the [grand-stack-starter](https://github.com/grand-stack/grand-stack-starter) repo, with some more comments.
+## Dependencies
+`(npm == 6.14.4 && node == 13.12.0)`
 
 ## Installation
 
@@ -33,11 +32,12 @@ Consider this a tutorial for those not familiar with React, Apollo or GraphQL.
     ```
    
 ## Project Structure
-
-### Apollo + GraphQL
-The pollo Client is a state management library for JavaScript apps. The Apollo code lives in the `api` directory of the project.
-
-### React
-React is a front-end framework for building web apps.
-The React code lives in the `ui` directory.
+| File/Folder        | Description                                                                          |
+|------------------|--------------------------------------------------------------------------------------|
+| `api`                           | Main folder for the Apollo / GraphQL API layer.                       |
+| `api/src`                       | Source files for the Apollo application.  |
+| `api/src/index.js`              | Sets up an express.js app that managed the API.  |
+| `api/src/schema.graphql`        | The schema that maps Cypher to GraphQL.  |
+| `api/.env`                      | Environment variables (settings) for the API layer.                                                     |
+| `api/package.json`              | Node dependencies for API Layer.                       |
 
