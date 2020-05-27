@@ -1,7 +1,8 @@
 ## grandstack-for-dummies
 This project aims to provide a super simple starting point for Grandstack apps.
-Consider this a starting point for those not familiar with React, Apollo or GraphQL. It's essentially a stripped down version of the [grand-stack-starter](https://github.com/grand-stack/grand-stack-starter) repo, with some more comments.
+Consider this a starting point for those not familiar with React, Apollo or GraphQL. 
 
+It's essentially a stripped down version of the [grand-stack-starter](https://github.com/grand-stack/grand-stack-starter) repo - *by no means a replacement*, but more of a simple way to familiarize with the format.
 ## Dependencies
 `(npm == 6.14.4 && node == 13.12.0)`
 
@@ -18,7 +19,7 @@ First we set up the GraphQL/Apollo API layer. We can test this independently usi
     ```
 3. Define a GraphQL schema that maps your Neo4j data to JSON. See `schema.graphql` for examples on the movie graph.
 4. Install the npm packages (`cd api && npm i`)
-5. Run the app in development mode (`npm run serve`)
+5. Run the app in development mode (`npm start`)
 6. Try out some GraphQL queries. For example:
     ```
     {
@@ -32,20 +33,23 @@ First we set up the GraphQL/Apollo API layer. We can test this independently usi
     }
     ```
 
-## Part 2
+## Part 2 - setting up the React Front-End
+1. Install the npm packages (`cd ui && npm i`)
+2. Run the app in development mode (`npm start`)
+
 ## Project Structure
 | File/Folder        | Description                                                                          |
-|------------------|--------------------------------------------------------------------------------------|
-| `api`                           | Main folder for the Apollo / GraphQL API layer.                       |
-| `api/src`                       | Source files for the Apollo application.  |
-| `api/src/index.js`              | Sets up an express.js app that managed the API.  |
-| `api/src/schema.graphql`        | The schema that maps Cypher to GraphQL.  |
-| `api/.env`                      | Environment variables (settings) for the API layer.                                                     |
-| `api/package.json`              | Node dependencies for API Layer.                       |
-| `ui`                           | Main folder for the Apollo / GraphQL API layer.                       |
-| `ui/public`                       | Source files for the Apollo application.  |
-| `ui/src`                       | Source files for the Apollo application.  |
-| `ui/src/index.js`              | Sets up an express.js app that managed the API.  |
-| `ui/src/index.css`        | The schema that maps Cypher to GraphQL.  |
-| `ui/.env`                      | Environment variables (settings) for the API layer.                                                     |
-| `ui/package.json`              | Node dependencies for API Layer.  
+|--------------------------------|--------------------------------------------------------------------------------------|
+| `api`                          | Main folder for the Apollo / GraphQL API layer.                       |
+| `api/src`                      | ____  Source files for the Apollo application.  |
+| `api/src/index.js`             | ________  Sets up an express.js app that managed the API.  |
+| `api/src/schema.graphql`       | ________  The schema that maps Cypher to GraphQL.  |
+| `api/.env`                     | ____ Environment variables (settings) for the API layer.                                                     |
+| `api/package.json`             | ____ Node dependencies for API Layer.                       |
+| `ui`                           | Main folder for the UI layer.                       |
+| `ui/public`                    | ____ Folder that contains the HTML files.  |
+| `ui/src`                       |    ____ Source files for the React application.  |
+| `ui/src/index.js`              |    ________ Sets up the React App.  |
+| `ui/src/registerServiceWorker.js`             |  ________ a javascript service worker to serve assets from local cache.  |
+| `ui/.env`                      |  ____ Environment variables (settings) for the UI layer.                                                     |
+| `ui/package.json`              |  ____ Node dependencies for the UI Layer.  
