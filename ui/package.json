@@ -12,7 +12,10 @@
     "react-scripts": "3.4.1",
     "apollo-boost": "^0.4.4",
     "graphql": "^14.5.8",
-    "graphql-tag": "^2.10.1"
+    "graphql-tag": "^2.10.1",
+    "materialize-css": "^1.0.0",
+    "react-materialize": "^3.9.2",
+    "jquery": "^3.5.1"
   },
   "scripts": {
     "start": "react-scripts start",

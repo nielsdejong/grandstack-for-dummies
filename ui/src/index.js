@@ -2,39 +2,49 @@ import React from "react";
 import ReactDOM from "react-dom";
 import registerServiceWorker from "./registerServiceWorker";
 import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "@apollo/react-hooks";
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import {ApolloProvider} from "@apollo/react-hooks";
+import App from "./ActorTable";
+import Dropdown from "react-materialize/lib/Dropdown";
+import Button from "react-materialize/lib/Button";
+import Modal from "react-materialize/lib/Modal";
+import Table from "react-materialize/lib/Table";
+import Navbar from "react-materialize/lib/Navbar";
+import Icon from "react-materialize/lib/Icon";
+import Container from "react-materialize/lib/Container";
 
 const client = new ApolloClient({
     uri: process.env.REACT_APP_GRAPHQL_URI
 });
 
-
-const GET_MOVIE = gql`
-    query getMovie($title: String!) {
-        Movie(title: $title) {
-            actors { name }
-        }
-    }
-`;
-
-function Hello() {
-    const { loading, error, data } = useQuery(GET_MOVIE, {
-        variables: { title: 'The Matrix' },
-    });
-
-    if (loading) return <p>Loading ...</p>;
-    return <h1>Hello {data["Movie"][0].actors[0].name}!</h1>;
-}
-
 const Main = () => (
     <ApolloProvider client={client}>
-        <Hello/>
+
+        <Navbar
+            style={{backgroundColor: 'black'}}
+            alignLinks="right"
+            brand={<a className="brand-logo" href="#">&nbsp; Neo4j Kettle Logging Dashboard </a>}
+            id="mobile-nav"
+            centerLogo
+            menuIcon={<Icon>menu</Icon>}
+        >
+
+        </Navbar>
+        <Container>
+        <App/>
+        {/*<Dropdown trigger={*/}
+        {/*    <Button>Drop me!</Button>*/}
+        {/*}>*/}
+        {/*    <p>Hello</p>*/}
+        {/*    <p>Hello</p>*/}
+        {/*    <p>Hello</p>*/}
+        {/*    <p>Bye</p>*/}
+        {/*</Dropdown>*/}
+
+        </Container>
     </ApolloProvider>
 );
 
-ReactDOM.render(<Main />, document.getElementById("root"));
+ReactDOM.render(<Main/>, document.getElementById("root"));
 registerServiceWorker();
 
 

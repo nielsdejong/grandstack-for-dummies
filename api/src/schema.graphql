@@ -19,3 +19,17 @@ type Person {
 type Query {
     peopleBySubstring(substring: String): [Person] @cypher( statement: "MATCH (u:Person) WHERE u.name CONTAINS $substring RETURN u")
 }
+
+type Execution {
+    name: String
+    id: String
+    type: String
+    executionStart: String
+    executionEnd: String
+    success: String @cypher(statement: "MATCH (this) RETURN coalesce(this.result, false)")
+    file: String @cypher( statement: "MATCH (this)-[r:EXECUTION_OF_JOB]-(j:Job) RETURN j.filename")
+    RWIOR: String @cypher( statement: "MATCH (this) RETURN this.linesRead + '/' + this.linesWritten + '/' + this.linesInput + '/' + this.linesOutput + '/' + this.linesRejected")
+}
+#MATCH (e:Execution)-[:EXECUTION_OF_JOB]->(j:Job)
+#RETURN j.name as job, j.filename as jobfile, e.name as execution, e.id as executionId, e.executionStart as start
+#ORDER BY start DESC
