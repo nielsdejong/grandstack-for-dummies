@@ -1,25 +1,4 @@
 
-type Movie {
-    # The ! sets the ID to be a unique identifier
-    id: ID!
-    # Name of the movie
-    title: String
-    # Gets all incoming relationships with type 'ACTED_IN'
-    actors: [Person] @relation(name: "ACTED_IN", direction: "IN")
-    # Gets the average rating for a given movie with a Cypher statement
-    avgRating: Float @cypher( statement: "MATCH (this)<-[r:REVIEWED]-(p:Person) RETURN coalesce(toFloat(avg(r.rating)),0)")
-}
-
-type Person {
-    id: ID!
-    name: String
-}
-
-# Specify a custom Cypher query in GraphQL using this construct.
-type Query {
-    peopleBySubstring(substring: String): [Person] @cypher( statement: "MATCH (u:Person) WHERE u.name CONTAINS $substring RETURN u")
-}
-
 type ExecutionInformation {
     name: String
     registrationDate: String
@@ -29,28 +8,41 @@ type ExecutionInformation {
     rwior: String
 }
 
+type ErrorInformation {
+    name: String
+    id: String
+    errors: String
+    loggingText: String
+}
+
 type Execution {
     name: String
     id: String
     type: String
+    errors: String
     executionStart: String
     executionEnd: String
-    durationMs: String
+    nrResultRows: String
+    nrResultFiles: String
+    duration: String @cypher( statement: "MATCH (this) RETURN this.durationMs")
     success: String @cypher(statement: "MATCH (this) WITH CASE this.result WHEN True THEN '✔️' ELSE '❌' END  as result RETURN result")
     file: String @cypher( statement: "MATCH (this)-[r:EXECUTION_OF_JOB]-(j:Job) RETURN j.filename")
     RWIOR: String @cypher( statement: "MATCH (this) RETURN this.linesRead + '/' + this.linesWritten + '/' + this.linesInput + '/' + this.linesOutput + '/' + this.linesRejected")
     loggingText: String  @cypher( statement: "MATCH (this) RETURN coalesce(this.loggingText, 'No logs found.')")
-    subexecutions: [ExecutionInformation] @cypher (statement: """MATCH (this)-[:EXECUTES*]->(e2)
-WITH {name: e2.name,
-    registrationDate: e2.registrationDate,
-    id: e2.id,
-    type: e2.type,
-    message: coalesce(e2.comment, e2.status),
+    subexecutions: [ExecutionInformation] @cypher (statement:
+        """MATCH (this)-[:EXECUTES*]->(e2)
+        WITH {name: e2.name,
+        registrationDate: e2.registrationDate,
+        id: e2.id,
+        type: e2.type,
+        message: coalesce(e2.comment, e2.status),
         rwior: e2.linesRead + '/' + e2.linesWritten + '/' + e2.linesInput + '/' + e2.linesOutput + '/' + e2.linesRejected } as tuple
         WITH tuple ORDER BY tuple.registrationDate
         RETURN tuple""")
+    rooterrors: [ErrorInformation] @cypher (statement:
+        """
+        MATCH (this)-[:EXECUTES*]->(e:Execution) WHERE e.errors <> 0 AND NOT EXISTS ((e)-[:EXECUTES]->())
+        RETURN {id: e.id, name: e.name, errors: e.errors,loggingText: e.loggingText}
+        """)
 }
 
-#MATCH (e:Execution)-[:EXECUTION_OF_JOB]->(j:Job)
-#RETURN j.name as job, j.filename as jobfile, e.name as execution, e.id as executionId, e.executionStart as start
-#ORDER BY start DESC
