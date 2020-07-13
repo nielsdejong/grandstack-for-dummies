@@ -19,3 +19,13 @@ type Person {
 type Query {
     peopleBySubstring(substring: String): [Person] @cypher( statement: "MATCH (u:Person) WHERE u.name CONTAINS $substring RETURN u")
 }
+
+type Query {
+    peopleBySubstring2(query: String): [Person]
+    @cypher(
+        statement:   """
+        CALL db.index.fulltext.queryNodes('personIndex', $query) YIELD node, score
+        WITH  node as f, score
+        RETURN f.name as name
+        """)
+}
